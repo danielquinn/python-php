@@ -2,8 +2,10 @@
 
 import re
 
+__version__ = "1.1"
+
 try:  # Python3
-    raise ImportError
+    from urllib.parse import quote
 except ImportError:  # Python2
     from urllib import quote
 
