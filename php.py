@@ -7,7 +7,7 @@ try:  # Python3
 except ImportError:  # Python2
     from urllib import quote
 
-__version__ = 1.1.1
+__version__ = "1.1.2"
 
 
 class Php(object):

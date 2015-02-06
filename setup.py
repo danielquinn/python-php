@@ -1,14 +1,16 @@
 import os
+import re
 from setuptools import setup
 
 # Grab __version__ from the actual module
+__version__ = None
 with open("php.py") as module:
+    version_regex = re.compile(r'^__version__ = "(?P<version>[0-9.]+)"')
     for line in module.readlines():
-        if line.startswith("__version__"):
-            __version__ = line.replace("__version__ = ", "").strip()
-
-name = "Python-PHP"
-tests_require = ["nose"]
+        m = re.match(version_regex, line)
+        if m:
+            __version__ = m.group("version")
+            break
 
 # Allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -27,7 +29,7 @@ with open(os.path.join(os.path.dirname(__file__), "README.rst")) as description:
         author_email="code@danielquinn.org",
         maintainer="Daniel Quinn",
         maintainer_email="code@danielquinn.org",
-        tests_require=tests_require,
+        tests_require=["nose"],
         test_suite="nose.collector",
         classifiers=[
             "Operating System :: POSIX",
