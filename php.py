@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
+import pkg_resources
 import re
-
-__version__ = "1.1"
 
 try:  # Python3
     from urllib.parse import quote
 except ImportError:  # Python2
     from urllib import quote
+
+__version__ = pkg_resources.require("php")[0].version
 
 
 class Php(object):
