@@ -1,7 +1,8 @@
 import os
 from setuptools import setup
 
-__version__ = exec(open("php.py").read())
+# Load the whole module, it can't hurt, since it's all compartmentalised anyway.
+exec(open("php.py").read())
 
 name = "Python-PHP"
 tests_require = ["nose"]

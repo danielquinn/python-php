@@ -106,8 +106,6 @@ class Php(object):
 
         header = cls.INI_REGEX_HEADER_LINE.match(line)
 
-        keyval = None
-
         if strip_quotes:
             keyval = cls.INI_REGEX_UNQUOTED_LINE.match(line)
         else:
