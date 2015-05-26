@@ -9,8 +9,8 @@ the standard and does things in a its own way.  For these cases, you can use
 this module to compensate.
 
 
-http_build_query()
-------------------
+Php.http_build_query()
+----------------------
 
 This was ripped shamelessly from a `PHP forum`_ and ported to Python:
 
@@ -22,8 +22,8 @@ PHP-managed URL via POST or GET.
 .. _http_build_query(): http://php.net/manual/en/function.http-build-query.php
 
 
-parse_ini_file()
-----------------
+Php.parse_ini_file()
+--------------------
 
 A hacked-together attempt at making an .ini file parser that's compatible with
 the "standards" that PHP follows in its parse_ini_file() function.  Among the
@@ -40,7 +40,7 @@ Example
 .......
 ::
 
-    from php import parse_ini_file
-    config = parse_ini_file("config.ini")
+    from php.php import Php
+    config = Php.parse_ini_file("config.ini")
     print config["sectionName"]["keyName"]
 

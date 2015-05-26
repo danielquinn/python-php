@@ -2,15 +2,18 @@ import os
 import re
 from setuptools import setup
 
-# Grab __version__ from the actual module
-__version__ = None
-with open("php.py") as module:
-    version_regex = re.compile(r'^__version__ = "(?P<version>[0-9.]+)"')
-    for line in module.readlines():
-        m = re.match(version_regex, line)
-        if m:
-            __version__ = m.group("version")
-            break
+def get_version():
+    version_file = os.path.join(
+        os.path.dirname(__file__), 
+        'php', 
+        '__init__.py'
+    )
+    with open(version_file) as f:
+        regex = re.compile("^__version__.*?(?P<version>[\d.]+).*")
+        for line in f.readlines():
+            m = regex.match(line)
+            if m:
+                return m.group("version")
 
 # Allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -19,7 +22,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 with open(os.path.join(os.path.dirname(__file__), "README.rst")) as description:
     setup(
         name="php",
-        version=__version__,
+        version=get_version(),
         license="AGPLv3",
         description="Handle some of the strange standards in PHP projects",
         long_description=description.read(),
@@ -31,6 +34,7 @@ with open(os.path.join(os.path.dirname(__file__), "README.rst")) as description:
         maintainer_email="code@danielquinn.org",
         tests_require=["nose"],
         test_suite="nose.collector",
+        packages=["php"],
         classifiers=[
             "Operating System :: POSIX",
             "Operating System :: Unix",
