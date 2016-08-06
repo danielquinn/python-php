@@ -5,7 +5,8 @@ try:  # Python3
 except ImportError:  # Python2
     from urllib import quote
 
-__version__ = "1.1.7"
+__version__ = "1.2.0"
+
 
 class Php(object):
 
@@ -51,10 +52,8 @@ class Php(object):
                     new_params[str(i)] = element
                     i += 1
 
-                output = output + cls.http_build_query(
-                    new_params,
-                    convention % key + "[%s]"
-                )
+                output += cls.http_build_query(
+                    new_params, convention % key + "[%s]")
 
             else:
 
@@ -65,12 +64,12 @@ class Php(object):
         return output
 
     @classmethod
-    def parse_ini_file(cls, filename, strip_quotes=False):
+    def parse_ini_file(cls, filename, strip_quotes=True):
         """
 
-        A hacked-together attempt at making an .ini file parser that's compatible
-        with the "standards" that PHP follows in its parse_ini_file() function.
-        Among the handy features included are:
+        A hacked-together attempt at making an .ini file parser that's
+        compatible with the "standards" that PHP follows in its
+        parse_ini_file() function.  Among the handy features included are:
 
           * List notation (varname[] = value)
           * Associative array notation (varname[key] = value)
@@ -101,7 +100,6 @@ class Php(object):
 
         return ini
 
-
     @classmethod
     def _parse_ini_loop(cls, line, header_key, ini, strip_quotes):
 
@@ -122,19 +120,27 @@ class Php(object):
             indexed_array = cls.INI_REGEX_INDEXED_ARRAY.match(keyval.group(1))
             associative_array = cls.INI_REGEX_ASSOCIATIVE_ARRAY.match(keyval.group(1))
 
+            target = ini
+            if header_key:
+                target = ini[header_key]
+
             value = keyval.group(2).rstrip("\n")
+            if value.isdigit():
+                value = int(value)
+            elif value.isdecimal():
+                value = float(value)
             if indexed_array:
                 try:
-                    ini[header_key][indexed_array.group(1)].append(value)
+                    target[indexed_array.group(1)].append(value)
                 except KeyError:
-                    ini[header_key][indexed_array.group(1)] = [value]
+                    target[indexed_array.group(1)] = [value]
             elif associative_array:
                 try:
-                    ini[header_key][associative_array.group(1)][associative_array.group(2)] = value
+                    target[associative_array.group(1)][associative_array.group(2)] = value
                 except KeyError:
-                    ini[header_key][associative_array.group(1)] = {associative_array.group(2): value}
+                    target[associative_array.group(1)] = {associative_array.group(2): value}
             else:
-                ini[header_key][keyval.group(1)] = value
+                target[keyval.group(1)] = value
 
         return ini, header_key
 

@@ -4,8 +4,8 @@ from setuptools import setup
 
 def get_version():
     version_file = os.path.join(
-        os.path.dirname(__file__), 
-        'php', 
+        os.path.dirname(__file__),
+        'php',
         '__init__.py'
     )
     with open(version_file) as f:
@@ -32,8 +32,6 @@ with open(os.path.join(os.path.dirname(__file__), "README.rst")) as description:
         author_email="code@danielquinn.org",
         maintainer="Daniel Quinn",
         maintainer_email="code@danielquinn.org",
-        tests_require=["nose"],
-        test_suite="nose.collector",
         packages=["php"],
         classifiers=[
             "Operating System :: POSIX",
