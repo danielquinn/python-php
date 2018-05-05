@@ -40,7 +40,7 @@ Example
 .......
 ::
 
-    from php.php import Php
+    from php import Php
     config = Php.parse_ini_file("config.ini")
     print config["sectionName"]["keyName"]
 
