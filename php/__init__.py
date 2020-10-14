@@ -5,7 +5,7 @@ try:  # Python3
 except ImportError:  # Python2
     from urllib import quote
 
-__version__ = "1.2.0"
+__version__ = "1.2.1"
 
 
 class Php(object):
@@ -57,8 +57,8 @@ class Php(object):
 
             else:
 
-                key = quote(key)
                 val = quote(str(params[key]))
+                key = quote(key)
                 output = output + convention % key + "=" + val + "&"
 
         return output

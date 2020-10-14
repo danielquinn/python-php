@@ -30,6 +30,9 @@ class TestPhp(TestCase):
         self.assertTrue("golf[2]=november" in test)
         self.assertTrue("golf[3]=oscar" in test)
 
+        self.assertEqual(
+            Php.http_build_query({"!alpha": "bravo"}), "%21alpha=bravo&")
+
     def test_parse_ini_file(self):
 
         ini_file = "/tmp/python-php-test.ini"
